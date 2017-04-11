@@ -3,11 +3,11 @@
 Here is where links to articles, cases, and screenshots go.
 
 ## Table of Contents
-1. [The Attorney General](the-attorney-general)
-2. [Attorney General](attorney-general)
-3. [U.S. Attorney](us-attorney)
-4. [District Attorney](district-attorney)
-5. [Municipal/City Attorney](municipalcity-attorney)
+1. [The Attorney General](#the-attorney-general)
+2. [Attorney General](#attorney-general)
+3. [U.S. Attorney](#us-attorney)
+4. [District Attorney](#district-attorney)
+5. [Municipal/City Attorney](#municipalcity-attorney)
 
 ## The Attorney General
 
