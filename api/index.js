@@ -15,6 +15,9 @@ app.use('/graphql', graphqlHTTP({
   rootValue: global,
   graphiql: true,
 }));
+app.use('/', (req, res) =>{
+  res.send(message)
+})
 
 MongoClient.connect(url, (err, client) => {
   if (err !== null) {
@@ -24,3 +27,14 @@ MongoClient.connect(url, (err, client) => {
   db = client.db()
   app.listen(PORT, () => console.log(`Running a GraphQL API on port ${PORT}`));
 });
+
+const message = `
+<style>
+  body {padding-top: 40%;font-family: Roboto, sans-serif;text-align: center;}
+  h1, h3 {margin: .25em;} a {text-decoration: none;}
+  h1 {font-weight: normal;letter-spacing: 1px;} h3 {font-weight: lighter;}
+</style>
+<h1><a href="https://github.com/billimarie/prosecutor-database">
+  Prosecutor Database</a></h1>
+<h3>GraphQL API running on <a href="/graphql">/graphql</a></h3>
+`
