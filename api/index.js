@@ -7,24 +7,22 @@ const {
 } = require('./src/schema.js');
 const PORT = process.env.PORT || 5000
 const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/pdb';
-var db
-
-var app = express();
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: global,
-  graphiql: true,
-}));
-app.use('/', (req, res) =>{
-  res.send(message)
-})
 
 MongoClient.connect(url, (err, client) => {
   if (err !== null) {
     throw new Error(err)
   }
   console.log("Connected successfully to DB");
-  db = client.db()
+  var app = express();
+  app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    rootValue: global,
+    graphiql: true,
+    context: { db: client.db() },
+  }));
+  app.use('/', (req, res) =>{
+    res.send(message)
+  })
   app.listen(PORT, () => console.log(`Running a GraphQL API on port ${PORT}`));
 });
 
