@@ -45,7 +45,7 @@ const schema = buildSchema(`
     prosecutor(id: String!): Prosecutor
     prosecutors: [Prosecutor]
   }
-`);
+`)
 
 var global = {
   attorneyGeneral: ({id}) => AttorneyGenerals.find(g => g.id === id),
@@ -54,17 +54,16 @@ var global = {
   usAttorneys: () => UsAttorneys,
   districtAttorney: ({id}) => DistrictAttorneys.find(g => g.id === id),
   districtAttorneys: () => DistrictAttorneys,
-  prosecutor: ({id}) => thing,
-  prosecutors: () => [thing],
-};
+  prosecutor: ({id}, ctx) => getById(id, ctx),
+  prosecutors: ({}, ctx) => get(ctx),
+}
 
-const thing = {
-    attorneyId: "ua-al-m",
-    name: "A. Clark Morris",
-    role: "U.S. Attorney",
-    state: "Alabama",
-    district: "Middle District",
-    appointed: "2017-03-11"
+const getById = async (id, ctx) => {
+  return await ctx.db.collection('documents').findOne({'attorney-id': id})
+}
+
+const get = async (ctx) => {
+  return await ctx.db.collection('documents').find().toArray()
 }
 
 module.exports = { schema, global }
