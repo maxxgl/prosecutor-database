@@ -26,6 +26,15 @@ const schema = buildSchema(`
     role: String
   }
 
+  type Prosecutor {
+    id: String
+    name: String
+    role: String
+    state: String
+    district: String
+    appointed: String
+  }
+
   type Query {
     attorneyGeneral(id: String): AttorneyGeneral
     attorneyGenerals: [AttorneyGeneral]
@@ -33,6 +42,8 @@ const schema = buildSchema(`
     usAttorneys: [UsAttorney]
     districtAttorney(id: String): DistrictAttorney
     districtAttorneys: [DistrictAttorney]
+    prosecutor(id: String!): Prosecutor
+    prosecutors: [Prosecutor]
   }
 `);
 
@@ -43,6 +54,17 @@ var global = {
   usAttorneys: () => UsAttorneys,
   districtAttorney: ({id}) => DistrictAttorneys.find(g => g.id === id),
   districtAttorneys: () => DistrictAttorneys,
+  prosecutor: ({id}) => thing,
+  prosecutors: () => [thing],
 };
+
+const thing = {
+    attorneyId: "ua-al-m",
+    name: "A. Clark Morris",
+    role: "U.S. Attorney",
+    state: "Alabama",
+    district: "Middle District",
+    appointed: "2017-03-11"
+}
 
 module.exports = { schema, global }
