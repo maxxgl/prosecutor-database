@@ -42,8 +42,8 @@ const schema = buildSchema(`
     usAttorneys: [UsAttorney]
     districtAttorney(id: String): DistrictAttorney
     districtAttorneys: [DistrictAttorney]
-    prosecutor(id: String!): Prosecutor
-    prosecutors: [Prosecutor]
+    prosecutors(id: String, state: String, name: String, role: String,
+      disctrict: String): [Prosecutor]
   }
 `)
 
@@ -54,16 +54,18 @@ var global = {
   usAttorneys: () => UsAttorneys,
   districtAttorney: ({id}) => DistrictAttorneys.find(g => g.id === id),
   districtAttorneys: () => DistrictAttorneys,
-  prosecutor: ({id}, ctx) => getById(id, ctx),
-  prosecutors: ({}, ctx) => get(ctx),
+  prosecutors: (args, ctx) => getByField(args, ctx),
 }
 
-const getById = async (id, ctx) => {
-  return await ctx.db.collection('documents').findOne({'attorney-id': id})
-}
-
-const get = async (ctx) => {
-  return await ctx.db.collection('documents').find().toArray()
+const getByField = async (args, ctx) => {
+  if (args.id) {
+    args['attorney-id'] = args.id
+    let thing = args
+    delete args.id
+  }
+  let arr = await ctx.db.collection('documents').find(args).toArray()
+  arr.forEach((p) => p.id = p["attorney-id"])
+  return arr
 }
 
 module.exports = { schema, global }
