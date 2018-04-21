@@ -10,7 +10,8 @@ const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/pdb';
 
 MongoClient.connect(url, (err, client) => {
   if (err !== null) {
-    throw new Error(err)
+    console.error("DB CONN FAIL", err)
+    return
   }
   console.log("Connected successfully to DB");
   var app = express();
