@@ -42,6 +42,7 @@ const schema = buildSchema(`
     usAttorneys: [UsAttorney]
     districtAttorney(id: String): DistrictAttorney
     districtAttorneys: [DistrictAttorney]
+    prosecutor(id: String): Prosecutor
     prosecutors(id: String, state: String, name: String, role: String,
       disctrict: String): [Prosecutor]
   }
@@ -54,7 +55,13 @@ var global = {
   usAttorneys: () => UsAttorneys,
   districtAttorney: ({id}) => DistrictAttorneys.find(g => g.id === id),
   districtAttorneys: () => DistrictAttorneys,
+  prosecutor: (args, ctx) => getById(args, ctx),
   prosecutors: (args, ctx) => getByField(args, ctx),
+}
+
+const getById = async (args, ctx) => {
+  const arr = await getByField(args, ctx)
+  return arr[0]
 }
 
 const getByField = async (args, ctx) => {
